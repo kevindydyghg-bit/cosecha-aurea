@@ -4,11 +4,13 @@ import { useMemo, useState } from "react";
 
 type Product = { id: number; weight: string; count: string; price: number; image: string; badge?: string; tone: string };
 
+const asset = (file: string) => `${import.meta.env.BASE_URL}assets/${file}`;
+
 const products: Product[] = [
-  { id: 1, weight: "100 g", count: "20–24 vainas", price: 649, image: "/assets/vainilla-100g.webp", badge: "Más vendido", tone: "Esmeralda" },
-  { id: 2, weight: "250 g", count: "50–55 vainas", price: 1390, image: "/assets/vainilla-250g.webp", tone: "Ámbar" },
-  { id: 3, weight: "500 g", count: "100–110 vainas", price: 2490, image: "/assets/vainilla-500g.webp", badge: "Ideal para chefs", tone: "Bosque" },
-  { id: 4, weight: "1 kg", count: "220–225 vainas", price: 4690, image: "/assets/vainilla-1kg.webp", badge: "Mayoreo", tone: "Oro" },
+  { id: 1, weight: "100 g", count: "20–24 vainas", price: 649, image: asset("vainilla-100g.webp"), badge: "Más vendido", tone: "Esmeralda" },
+  { id: 2, weight: "250 g", count: "50–55 vainas", price: 1390, image: asset("vainilla-250g.webp"), tone: "Ámbar" },
+  { id: 3, weight: "500 g", count: "100–110 vainas", price: 2490, image: asset("vainilla-500g.webp"), badge: "Ideal para chefs", tone: "Bosque" },
+  { id: 4, weight: "1 kg", count: "220–225 vainas", price: 4690, image: asset("vainilla-1kg.webp"), badge: "Mayoreo", tone: "Oro" },
 ];
 
 const money = new Intl.NumberFormat("es-MX", { style: "currency", currency: "MXN", maximumFractionDigits: 0 });
@@ -50,7 +52,7 @@ export default function Storefront() {
       <div className="announcement">ENVÍO NACIONAL · VAINILLA 100% MEXICANA · COSECHA SELECCIONADA</div>
       <header className="nav-shell">
         <button className="menu-toggle" aria-label="Abrir menú" onClick={() => setMenuOpen(!menuOpen)}><span/><span/></button>
-        <button className="brand" onClick={() => scrollTo("inicio")} aria-label="Ir al inicio"><img src="/assets/logo-optimized.png" alt="Cosecha Áurea" /></button>
+        <button className="brand" onClick={() => scrollTo("inicio")} aria-label="Ir al inicio"><img src={asset("logo-optimized.png")} alt="Cosecha Áurea" /></button>
         <nav className={menuOpen ? "nav-links open" : "nav-links"} aria-label="Navegación principal">
           <button onClick={() => scrollTo("catalogo")}>Tienda</button><button onClick={() => scrollTo("origen")}>Nuestra vainilla</button><button onClick={() => scrollTo("mayoreo")}>Mayoreo</button><button onClick={() => scrollTo("preguntas")}>Preguntas</button>
         </nav>
@@ -65,7 +67,7 @@ export default function Storefront() {
           <div className="hero-actions"><button className="primary" onClick={() => scrollTo("catalogo")}>Descubrir la cosecha <span>→</span></button><button className="text-link" onClick={() => scrollTo("origen")}>Conocer el origen</button></div>
           <div className="hero-proof"><span><b>100%</b> natural</span><i/><span><b>16–21 cm</b> selección premium</span><i/><span><b>Origen</b> Papantla</span></div>
         </div>
-        <div className="hero-visual"><div className="hero-halo"/><img src="/assets/vainilla-100g.webp" alt="Presentación premium de vainas de vainilla Cosecha Áurea" /><div className="seal"><span>Cosecha</span><strong>2026</strong><span>Selección</span></div></div>
+        <div className="hero-visual"><div className="hero-halo"/><img src={asset("vainilla-100g.webp")} alt="Presentación premium de vainas de vainilla Cosecha Áurea" /><div className="seal"><span>Cosecha</span><strong>2026</strong><span>Selección</span></div></div>
         <div className="scroll-cue">DESLIZA <span>↓</span></div>
       </section>
 
@@ -88,7 +90,7 @@ export default function Storefront() {
       </section>
 
       <section className="origin section" id="origen">
-        <div className="origin-image"><img src="/assets/vainilla-etiqueta.webp" alt="Detalle de la etiqueta Cosecha Áurea" /><span className="vertical-label">PAPANTLA · VERACRUZ · MÉXICO</span></div>
+        <div className="origin-image"><img src={asset("vainilla-etiqueta.webp")} alt="Detalle de la etiqueta Cosecha Áurea" /><span className="vertical-label">PAPANTLA · VERACRUZ · MÉXICO</span></div>
         <div className="origin-copy"><p className="eyebrow light"><LeafMark /> La historia en cada vaina</p><h2>Nace en la tierra.<br/>Se perfecciona<br/><em>con el tiempo.</em></h2><p>En el corazón de Veracruz, cada orquídea de vainilla se poliniza y cultiva con cuidado. Después de la cosecha comienza un lento proceso de beneficio que despierta cientos de compuestos aromáticos.</p>
           <div className="origin-steps"><div><b>01</b><span>Selección manual</span><small>Solo vainas maduras y sanas.</small></div><div><b>02</b><span>Curado paciente</span><small>Sol, sombra y reposo controlado.</small></div><div><b>03</b><span>Empaque fresco</span><small>El aroma se conserva intacto.</small></div></div>
         </div>
@@ -111,7 +113,7 @@ export default function Storefront() {
         ].map(([q, a], index) => <div className={openFaq === index ? "faq-item active" : "faq-item"} key={q}><button onClick={() => setOpenFaq(openFaq === index ? null : index)} aria-expanded={openFaq === index}><span>0{index + 1}</span>{q}<b>{openFaq === index ? "−" : "+"}</b></button><div><p>{a}</p></div></div>)}</div>
       </section>
 
-      <footer><div className="footer-main"><img src="/assets/logo-optimized.png" alt="Cosecha Áurea" /><p>Vainilla premium mexicana<br/>de Papantla, Veracruz.</p><div><a href="mailto:contacto@cosechaaurea.com">contacto@cosechaaurea.com</a><a href="#inicio">Instagram · @cosechaaurea</a></div></div><div className="footer-bottom"><span>© 2026 Cosecha Áurea</span><span>Sitio demostrativo · Proyecto escolar</span><button onClick={() => scrollTo("inicio")}>Volver arriba ↑</button></div></footer>
+      <footer><div className="footer-main"><img src={asset("logo-optimized.png")} alt="Cosecha Áurea" /><p>Vainilla premium mexicana<br/>de Papantla, Veracruz.</p><div><a href="mailto:contacto@cosechaaurea.com">contacto@cosechaaurea.com</a><a href="#inicio">Instagram · @cosechaaurea</a></div></div><div className="footer-bottom"><span>© 2026 Cosecha Áurea</span><span>Sitio demostrativo · Proyecto escolar</span><button onClick={() => scrollTo("inicio")}>Volver arriba ↑</button></div></footer>
 
       <aside className={cartOpen ? "cart-drawer open" : "cart-drawer"} aria-hidden={!cartOpen}><div className="drawer-head"><div><p>Tu selección</p><span>{cart.length} {cart.length === 1 ? "producto" : "productos"}</span></div><button onClick={() => setCartOpen(false)} aria-label="Cerrar carrito">×</button></div><div className="drawer-items">
         {cart.length === 0 ? <div className="empty-cart"><BagIcon/><h3>Tu carrito está vacío</h3><p>Explora las presentaciones de nuestra cosecha.</p><button onClick={() => {setCartOpen(false); scrollTo("catalogo")}}>Ver productos</button></div> : cart.map((item, index) => <div className="cart-item" key={`${item.id}-${index}`}><img src={item.image} alt=""/><div><p>Vainas premium</p><h4>{item.weight}</h4><span>{money.format(item.price)}</span></div><button onClick={() => setCart((items) => items.filter((_, i) => i !== index))} aria-label="Quitar producto">×</button></div>)}
