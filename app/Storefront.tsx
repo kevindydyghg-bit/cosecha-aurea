@@ -91,7 +91,7 @@ export default function Storefront() {
           <div className="hero-actions"><button className="primary" onClick={() => scrollTo("catalogo")}>Ver presentaciones <span>→</span></button><button className="text-link" onClick={() => scrollTo("mayoreo")}>Compra internacional</button></div>
           <div className="hero-proof"><span><b>15–17 cm</b> calidad premium</span><i/><span><b>25–28%</b> humedad controlada</span><i/><span><b>Origen</b> Papantla</span></div>
         </div>
-        <div className="hero-visual"><div className="hero-halo"/><img src={asset("vainilla-100g.webp")} alt="Empaque al vacío de vainas de vainilla premium de 100 gramos" /><div className="seal"><span>Grado A</span><strong>15–17</strong><span>centímetros</span></div></div>
+        <div className="hero-visual"><div className="hero-halo"/><img src={asset("cultivo-hero.webp")} alt="Cultivo de vainilla planifolia con flores y vainas verdes en Papantla" /><div className="seal"><span>Grado A</span><strong>15–17</strong><span>centímetros</span></div></div>
         <div className="scroll-cue">DESLIZA <span>↓</span></div>
       </section>
 
@@ -118,7 +118,7 @@ export default function Storefront() {
       </section>
 
       <section className="origin section" id="origen">
-        <div className="origin-image"><img src={asset("vainilla-500g.webp")} alt="Empaque de exportación de vainilla Cosecha Áurea de 500 gramos" /><span className="vertical-label">PAPANTLA · VERACRUZ · MÉXICO</span></div>
+        <div className="origin-image"><img src={asset("cultivo-vainas.webp")} alt="Vainas verdes creciendo en una planta de vainilla planifolia" /><span className="vertical-label">PAPANTLA · VERACRUZ · MÉXICO</span></div>
         <div className="origin-copy"><p className="eyebrow light"><LeafMark /> Del cultivo al empaque</p><h2>Nace en la tierra.<br/>Viaja protegida<br/><em>hasta su destino.</em></h2><p>Las vainas se polinizan manualmente y pasan por un proceso artesanal de escaldado, sudado, secado y curado. Solo las piezas enteras de 15 a 17 cm que cumplen con el perfil Grado A se seleccionan para el empaque premium.</p>
           <div className="origin-steps"><div><b>01</b><span>Selección manual</span><small>Longitud, flexibilidad y brillo.</small></div><div><b>02</b><span>Curado paciente</span><small>Aroma profundo y natural.</small></div><div><b>03</b><span>Sellado al vacío</span><small>Protección para exportación.</small></div></div>
         </div>
@@ -129,7 +129,7 @@ export default function Storefront() {
         <div className="notes"><div className="note"><span>01</span><div className="note-orb vanilla"/><h3>Vainilla cremosa</h3><p>Dulce, redonda y envolvente.</p></div><div className="note"><span>02</span><div className="note-orb cacao"/><h3>Cacao & caramelo</h3><p>Matices cálidos y persistentes.</p></div><div className="note"><span>03</span><div className="note-orb floral"/><h3>Flores & madera</h3><p>Un final elegante y especiado.</p></div></div>
       </section>
 
-      <section className="wholesale" id="mayoreo"><div className="wholesale-card"><div><p className="eyebrow light"><LeafMark /> Exportación B2B a Suiza</p><h2>De Papantla<br/>a tu negocio.</h2><p>Atendemos compras internacionales para chocolaterías, pastelerías, hoteles, restaurantes y fabricantes. El modelo contempla empaque al vacío, etiquetado bilingüe, seguimiento y entrega puerta a puerta en Zúrich bajo cotización.</p><div className="export-points"><span>15–17 cm</span><span>Empaque bilingüe</span><span>Seguimiento internacional</span></div></div><div className="wholesale-action"><span>¿Necesitas una cotización internacional?</span><a href="mailto:contacto@cosechaaurea.com?subject=Cotización%20internacional%20de%20vainilla">Cotizar exportación <b>↗</b></a><small>Pedidos nacionales e internacionales · Atención B2B</small></div></div></section>
+      <section className="wholesale" id="mayoreo"><div className="wholesale-card" style={{ backgroundImage: `linear-gradient(110deg, rgba(8,35,25,.88), rgba(8,35,25,.58)), url('${asset("cultivo-panoramico.webp")}')` }}><div><p className="eyebrow light"><LeafMark /> Exportación B2B a Suiza</p><h2>De Papantla<br/>a tu negocio.</h2><p>Atendemos compras internacionales para chocolaterías, pastelerías, hoteles, restaurantes y fabricantes. El modelo contempla empaque al vacío, etiquetado bilingüe, seguimiento y entrega puerta a puerta en Zúrich bajo cotización.</p><div className="export-points"><span>15–17 cm</span><span>Empaque bilingüe</span><span>Seguimiento internacional</span></div></div><div className="wholesale-action"><span>¿Necesitas una cotización internacional?</span><a href="mailto:contacto@cosechaaurea.com?subject=Cotización%20internacional%20de%20vainilla">Cotizar exportación <b>↗</b></a><small>Pedidos nacionales e internacionales · Atención B2B</small></div></div></section>
 
       <section className="faq section" id="preguntas">
         <div><p className="eyebrow"><LeafMark /> Lo esencial</p><h2>Preguntas<br/>frecuentes.</h2><p className="faq-lead">Todo lo que necesitas saber antes de elegir tu presentación.</p></div>
