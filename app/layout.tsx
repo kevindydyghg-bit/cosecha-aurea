@@ -13,10 +13,10 @@ export async function generateMetadata(): Promise<Metadata> {
   const image = `${protocol}://${host}/og.webp`;
   return {
     title: "Cosecha Áurea | Vainilla Premium Mexicana",
-    description: "Vainas de vainilla premium mexicana de Papantla, Veracruz. Selección gourmet para cocina, repostería y profesionales.",
+    description: "Vainas de vainilla premium mexicana de 15 a 17 cm, empacadas al vacío en Papantla, Veracruz, para compras nacionales e internacionales.",
     icons: { icon: "/assets/logo-optimized.png" },
-    openGraph: { title: "Cosecha Áurea", description: "Vainilla premium mexicana de Papantla, Veracruz.", images: [{ url: image, width: 1200, height: 630, alt: "Cosecha Áurea — Vainilla premium mexicana" }] },
-    twitter: { card: "summary_large_image", title: "Cosecha Áurea", description: "Vainilla premium mexicana de Papantla, Veracruz.", images: [image] },
+    openGraph: { title: "Cosecha Áurea", description: "Vainilla premium mexicana de 15 a 17 cm para compras nacionales e internacionales.", images: [{ url: image, width: 1200, height: 630, alt: "Cosecha Áurea — Vainilla premium mexicana" }] },
+    twitter: { card: "summary_large_image", title: "Cosecha Áurea", description: "Vainilla premium mexicana de 15 a 17 cm para compras nacionales e internacionales.", images: [image] },
   };
 }
 

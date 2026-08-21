@@ -1,16 +1,25 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
-type Product = { id: number; weight: string; count: string; price: number; image: string; badge?: string; tone: string };
+type Product = {
+  id: number;
+  weight: string;
+  count: string;
+  price: number;
+  chf: string;
+  image: string;
+  badge?: string;
+  tone: string;
+  description: string;
+};
 
 const asset = (file: string) => `${import.meta.env.BASE_URL}assets/${file}`;
-
 const products: Product[] = [
-  { id: 1, weight: "100 g", count: "20–24 vainas", price: 649, image: asset("vainilla-100g.webp"), badge: "Más vendido", tone: "Esmeralda" },
-  { id: 2, weight: "250 g", count: "50–55 vainas", price: 1390, image: asset("vainilla-250g.webp"), tone: "Ámbar" },
-  { id: 3, weight: "500 g", count: "100–110 vainas", price: 2490, image: asset("vainilla-500g.webp"), badge: "Ideal para chefs", tone: "Bosque" },
-  { id: 4, weight: "1 kg", count: "220–225 vainas", price: 4690, image: asset("vainilla-1kg.webp"), badge: "Mayoreo", tone: "Oro" },
+  { id: 1, weight: "100 g", count: "20–24 vainas", price: 1540, chf: "65.50 CHF", image: asset("vainilla-100g.webp"), badge: "Preventa", tone: "Selección", description: "Formato de introducción ideal para chocolaterías, reposterías y pruebas de producción." },
+  { id: 2, weight: "250 g", count: "50–55 vainas", price: 3850, chf: "163.80 CHF", image: asset("vainilla-250g.webp"), tone: "Gourmet", description: "Presentación versátil para cocina profesional y producción artesanal de pequeña escala." },
+  { id: 3, weight: "500 g", count: "100–110 vainas", price: 7700, chf: "327.60 CHF", image: asset("vainilla-500g.webp"), badge: "Profesional", tone: "Premium", description: "Volumen profesional para restaurantes, hoteles, pastelerías y fabricantes especializados." },
+  { id: 4, weight: "1 kg", count: "220–225 vainas", price: 15400, chf: "655.30 CHF", image: asset("vainilla-1kg.webp"), badge: "Exportación", tone: "Mayoreo", description: "Formato de mayoreo preparado para compradores B2B y operaciones internacionales recurrentes." },
 ];
 
 const money = new Intl.NumberFormat("es-MX", { style: "currency", currency: "MXN", maximumFractionDigits: 0 });
@@ -24,6 +33,7 @@ function LeafMark() { return <span className="leaf-mark" aria-hidden="true">✦<
 export default function Storefront() {
   const [cart, setCart] = useState<Product[]>([]);
   const [cartOpen, setCartOpen] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [menuOpen, setMenuOpen] = useState(false);
   const [toast, setToast] = useState("");
   const [openFaq, setOpenFaq] = useState<number | null>(0);
@@ -37,11 +47,25 @@ export default function Storefront() {
   }, [sort]);
 
   const total = cart.reduce((sum, item) => sum + item.price, 0);
+
+  useEffect(() => {
+    function closeOnEscape(event: KeyboardEvent) {
+      if (event.key === "Escape") {
+        setSelectedProduct(null);
+        setCartOpen(false);
+      }
+    }
+    window.addEventListener("keydown", closeOnEscape);
+    return () => window.removeEventListener("keydown", closeOnEscape);
+  }, []);
+
   function addToCart(product: Product) {
     setCart((items) => [...items, product]);
+    setSelectedProduct(null);
     setToast(`${product.weight} agregado a tu selección`);
     window.setTimeout(() => setToast(""), 2200);
   }
+
   function scrollTo(id: string) {
     setMenuOpen(false);
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
@@ -49,50 +73,54 @@ export default function Storefront() {
 
   return (
     <main>
-      <div className="announcement">ENVÍO NACIONAL · VAINILLA 100% MEXICANA · COSECHA SELECCIONADA</div>
+      <div className="announcement">COMPRAS NACIONALES E INTERNACIONALES · ENVÍOS A SUIZA · VAINILLA 100% MEXICANA</div>
       <header className="nav-shell">
         <button className="menu-toggle" aria-label="Abrir menú" onClick={() => setMenuOpen(!menuOpen)}><span/><span/></button>
         <button className="brand" onClick={() => scrollTo("inicio")} aria-label="Ir al inicio"><img src={asset("logo-optimized.png")} alt="Cosecha Áurea" /></button>
         <nav className={menuOpen ? "nav-links open" : "nav-links"} aria-label="Navegación principal">
-          <button onClick={() => scrollTo("catalogo")}>Tienda</button><button onClick={() => scrollTo("origen")}>Nuestra vainilla</button><button onClick={() => scrollTo("mayoreo")}>Mayoreo</button><button onClick={() => scrollTo("preguntas")}>Preguntas</button>
+          <button onClick={() => scrollTo("catalogo")}>Tienda</button><button onClick={() => scrollTo("origen")}>Nuestra vainilla</button><button onClick={() => scrollTo("mayoreo")}>Exportación</button><button onClick={() => scrollTo("preguntas")}>Preguntas</button>
         </nav>
         <button className="cart-button" onClick={() => setCartOpen(true)} aria-label={`Abrir carrito, ${cart.length} productos`}><BagIcon /><span>Carrito</span><b>{cart.length}</b></button>
       </header>
 
       <section className="hero" id="inicio">
         <div className="hero-copy">
-          <p className="eyebrow"><LeafMark /> De Papantla, Veracruz</p>
+          <p className="eyebrow"><LeafMark /> De Papantla a Suiza</p>
           <h1>El oro aromático<br/>de México.</h1>
-          <p className="hero-lead">Vainas carnosas, flexibles y profundamente aromáticas, seleccionadas para quienes convierten cada receta en algo memorable.</p>
-          <div className="hero-actions"><button className="primary" onClick={() => scrollTo("catalogo")}>Descubrir la cosecha <span>→</span></button><button className="text-link" onClick={() => scrollTo("origen")}>Conocer el origen</button></div>
-          <div className="hero-proof"><span><b>100%</b> natural</span><i/><span><b>16–21 cm</b> selección premium</span><i/><span><b>Origen</b> Papantla</span></div>
+          <p className="hero-lead">Vainas Grado A, carnosas y flexibles, seleccionadas entre 15 y 17 cm. Empacadas al vacío para conservar su humedad, aroma y calidad durante el envío internacional.</p>
+          <div className="hero-actions"><button className="primary" onClick={() => scrollTo("catalogo")}>Ver presentaciones <span>→</span></button><button className="text-link" onClick={() => scrollTo("mayoreo")}>Compra internacional</button></div>
+          <div className="hero-proof"><span><b>15–17 cm</b> calidad premium</span><i/><span><b>25–28%</b> humedad controlada</span><i/><span><b>Origen</b> Papantla</span></div>
         </div>
-        <div className="hero-visual"><div className="hero-halo"/><img src={asset("vainilla-100g.webp")} alt="Presentación premium de vainas de vainilla Cosecha Áurea" /><div className="seal"><span>Cosecha</span><strong>2026</strong><span>Selección</span></div></div>
+        <div className="hero-visual"><div className="hero-halo"/><img src={asset("vainilla-100g.webp")} alt="Empaque al vacío de vainas de vainilla premium de 100 gramos" /><div className="seal"><span>Grado A</span><strong>15–17</strong><span>centímetros</span></div></div>
         <div className="scroll-cue">DESLIZA <span>↓</span></div>
       </section>
 
       <section className="trust-strip" aria-label="Características del producto">
-        <div><span>01</span><p><b>Cultivo de origen</b>Directo de la región vainillera</p></div><div><span>02</span><p><b>Curado artesanal</b>Tiempo, cuidado y experiencia</p></div><div><span>03</span><p><b>Calidad sensorial</b>Aroma intenso y gran contenido</p></div><div><span>04</span><p><b>Envío nacional</b>Empaque protegido y hermético</p></div>
+        <div><span>01</span><p><b>Origen protegido</b>Papantla, Veracruz, México</p></div><div><span>02</span><p><b>Sellado al vacío</b>Aroma y humedad protegidos</p></div><div><span>03</span><p><b>Grado A Gourmet</b>Vainas enteras de 15–17 cm</p></div><div><span>04</span><p><b>Compra internacional</b>Atención B2B México–Suiza</p></div>
       </section>
 
       <section className="catalog section" id="catalogo">
         <div className="section-heading">
-          <div><p className="eyebrow"><LeafMark /> Nuestra selección</p><h2>Una vaina para<br/>cada creación.</h2></div>
-          <div className="catalog-intro"><p>Vainilla <i>planifolia</i> de calidad gourmet, clasificada y empacada para conservar su humedad, flexibilidad y extraordinario perfume.</p><label>Ordenar por<select value={sort} onChange={(e) => setSort(e.target.value)}><option value="featured">Recomendados</option><option value="low">Menor precio</option><option value="high">Mayor precio</option></select></label></div>
+          <div><p className="eyebrow"><LeafMark /> Nuevos empaques</p><h2>Una presentación<br/>para cada escala.</h2></div>
+          <div className="catalog-intro"><p>Vainilla <i>planifolia</i> Grado A / Gourmet, clasificada por su longitud de 15 a 17 cm y empacada al vacío. Selecciona una presentación para ver el empaque y su ficha completa.</p><label>Ordenar por<select value={sort} onChange={(e) => setSort(e.target.value)}><option value="featured">Recomendados</option><option value="low">Menor precio</option><option value="high">Mayor precio</option></select></label></div>
         </div>
         <div className="product-grid">
           {shownProducts.map((product) => <article className="product-card" key={product.id}>
-            <div className="product-image">{product.badge && <span className="product-badge">{product.badge}</span>}<span className="product-index">0{product.id}</span><img src={product.image} alt={`Vainas de vainilla, presentación ${product.weight}`} /><button className="quick-add" onClick={() => addToCart(product)} aria-label={`Agregar presentación de ${product.weight}`}><span>Agregar</span> +</button></div>
-            <div className="product-info"><div><p>Vainilla premium · {product.tone}</p><h3>Vainas de vainilla {product.weight}</h3><small>Aprox. {product.count}</small></div><strong>{money.format(product.price)}</strong></div>
+            <div className="product-image">
+              {product.badge && <span className="product-badge">{product.badge}</span>}<span className="product-index">0{product.id}</span>
+              <button className="product-photo-button" onClick={() => setSelectedProduct(product)} aria-label={`Ver empaque de ${product.weight}`}><img src={product.image} alt={`Empaque al vacío de vainilla, presentación ${product.weight}`} /></button>
+              <button className="quick-add" onClick={() => setSelectedProduct(product)}><span>Ver empaque</span> ↗</button>
+            </div>
+            <div className="product-info"><div><p>Vainilla {product.tone} · 15–17 cm</p><h3>Vainas de vainilla {product.weight}</h3><small>Aprox. {product.count}</small></div><div className="product-price"><strong>{money.format(product.price)}</strong><small>{product.chf}</small></div></div>
           </article>)}
         </div>
-        <p className="demo-note">Precios ilustrativos para fines de esta presentación escolar.</p>
+        <p className="demo-note">Precios de referencia del proyecto de exportación; el pedido internacional se confirma mediante cotización.</p>
       </section>
 
       <section className="origin section" id="origen">
-        <div className="origin-image"><img src={asset("vainilla-etiqueta.webp")} alt="Detalle de la etiqueta Cosecha Áurea" /><span className="vertical-label">PAPANTLA · VERACRUZ · MÉXICO</span></div>
-        <div className="origin-copy"><p className="eyebrow light"><LeafMark /> La historia en cada vaina</p><h2>Nace en la tierra.<br/>Se perfecciona<br/><em>con el tiempo.</em></h2><p>En el corazón de Veracruz, cada orquídea de vainilla se poliniza y cultiva con cuidado. Después de la cosecha comienza un lento proceso de beneficio que despierta cientos de compuestos aromáticos.</p>
-          <div className="origin-steps"><div><b>01</b><span>Selección manual</span><small>Solo vainas maduras y sanas.</small></div><div><b>02</b><span>Curado paciente</span><small>Sol, sombra y reposo controlado.</small></div><div><b>03</b><span>Empaque fresco</span><small>El aroma se conserva intacto.</small></div></div>
+        <div className="origin-image"><img src={asset("vainilla-500g.webp")} alt="Empaque de exportación de vainilla Cosecha Áurea de 500 gramos" /><span className="vertical-label">PAPANTLA · VERACRUZ · MÉXICO</span></div>
+        <div className="origin-copy"><p className="eyebrow light"><LeafMark /> Del cultivo al empaque</p><h2>Nace en la tierra.<br/>Viaja protegida<br/><em>hasta su destino.</em></h2><p>Las vainas se polinizan manualmente y pasan por un proceso artesanal de escaldado, sudado, secado y curado. Solo las piezas enteras de 15 a 17 cm que cumplen con el perfil Grado A se seleccionan para el empaque premium.</p>
+          <div className="origin-steps"><div><b>01</b><span>Selección manual</span><small>Longitud, flexibilidad y brillo.</small></div><div><b>02</b><span>Curado paciente</span><small>Aroma profundo y natural.</small></div><div><b>03</b><span>Sellado al vacío</span><small>Protección para exportación.</small></div></div>
         </div>
       </section>
 
@@ -101,23 +129,39 @@ export default function Storefront() {
         <div className="notes"><div className="note"><span>01</span><div className="note-orb vanilla"/><h3>Vainilla cremosa</h3><p>Dulce, redonda y envolvente.</p></div><div className="note"><span>02</span><div className="note-orb cacao"/><h3>Cacao & caramelo</h3><p>Matices cálidos y persistentes.</p></div><div className="note"><span>03</span><div className="note-orb floral"/><h3>Flores & madera</h3><p>Un final elegante y especiado.</p></div></div>
       </section>
 
-      <section className="wholesale" id="mayoreo"><div className="wholesale-card"><div><p className="eyebrow light"><LeafMark /> Para profesionales</p><h2>Tu cocina merece<br/>una gran materia prima.</h2><p>Atendemos a restaurantes, reposterías, hoteles y distribuidores con presentaciones desde 500 g y condiciones especiales.</p></div><div className="wholesale-action"><span>¿Proyecto gastronómico?</span><a href="mailto:contacto@cosechaaurea.com">Solicitar cotización <b>↗</b></a><small>Respuesta estimada en 24–48 horas</small></div></div></section>
+      <section className="wholesale" id="mayoreo"><div className="wholesale-card"><div><p className="eyebrow light"><LeafMark /> Exportación B2B a Suiza</p><h2>De Papantla<br/>a tu negocio.</h2><p>Atendemos compras internacionales para chocolaterías, pastelerías, hoteles, restaurantes y fabricantes. El modelo contempla empaque al vacío, etiquetado bilingüe, seguimiento y entrega puerta a puerta en Zúrich bajo cotización.</p><div className="export-points"><span>15–17 cm</span><span>Empaque bilingüe</span><span>Seguimiento internacional</span></div></div><div className="wholesale-action"><span>¿Necesitas una cotización internacional?</span><a href="mailto:contacto@cosechaaurea.com?subject=Cotización%20internacional%20de%20vainilla">Cotizar exportación <b>↗</b></a><small>Pedidos nacionales e internacionales · Atención B2B</small></div></div></section>
 
       <section className="faq section" id="preguntas">
         <div><p className="eyebrow"><LeafMark /> Lo esencial</p><h2>Preguntas<br/>frecuentes.</h2><p className="faq-lead">Todo lo que necesitas saber antes de elegir tu presentación.</p></div>
         <div className="faq-list">{[
-          ["¿Cómo conservar las vainas?", "Guárdalas en un recipiente hermético, en un lugar fresco, seco y oscuro. Evita el refrigerador y ventílalas brevemente cada pocas semanas."],
-          ["¿Qué significa calidad premium?", "Son vainas seleccionadas por tamaño, flexibilidad, humedad, integridad y perfil aromático; ideales para repostería, cocina y extracción."],
-          ["¿Realizan envíos a todo México?", "Sí. Para esta demostración se contempla cobertura nacional con empaque protegido y seguimiento de envío."],
-          ["¿Puedo comprar para mi negocio?", "Claro. Las presentaciones de 500 g y 1 kg están pensadas para uso profesional; también preparamos cotizaciones a medida."],
+          ["¿Qué tamaño tienen las vainas premium?", "La selección Grado A / Gourmet está compuesta por vainas enteras de 15 a 17 cm, flexibles, carnosas y de color café oscuro a negro brillante."],
+          ["¿Realizan compras y envíos internacionales?", "Sí. Atendemos pedidos B2B internacionales, especialmente hacia Zúrich, Suiza. Cada operación se confirma mediante cotización de producto, transporte y documentación."],
+          ["¿Cómo se conserva el producto?", "El sellado al vacío protege los aceites esenciales y la humedad de 25% a 28%. Debe mantenerse en un lugar fresco, seco y oscuro, sin refrigeración."],
+          ["¿Qué presentaciones están disponibles?", "Ofrecemos bolsas selladas al vacío de 100 g, 250 g, 500 g y 1 kg, con el número aproximado de vainas indicado en cada empaque."],
+          ["¿Puedo comprar para mi negocio?", "Claro. Las presentaciones de 500 g y 1 kg están orientadas a hoteles, restaurantes, chocolaterías, reposterías y fabricantes especializados."],
         ].map(([q, a], index) => <div className={openFaq === index ? "faq-item active" : "faq-item"} key={q}><button onClick={() => setOpenFaq(openFaq === index ? null : index)} aria-expanded={openFaq === index}><span>0{index + 1}</span>{q}<b>{openFaq === index ? "−" : "+"}</b></button><div><p>{a}</p></div></div>)}</div>
       </section>
 
-      <footer><div className="footer-main"><img src={asset("logo-optimized.png")} alt="Cosecha Áurea" /><p>Vainilla premium mexicana<br/>de Papantla, Veracruz.</p><div><a href="mailto:contacto@cosechaaurea.com">contacto@cosechaaurea.com</a><a href="#inicio">Instagram · @cosechaaurea</a></div></div><div className="footer-bottom"><span>© 2026 Cosecha Áurea</span><span>Sitio demostrativo · Proyecto escolar</span><button onClick={() => scrollTo("inicio")}>Volver arriba ↑</button></div></footer>
+      <footer><div className="footer-main"><img src={asset("logo-optimized.png")} alt="Cosecha Áurea" /><p>Vainilla premium mexicana<br/>de Papantla para el mundo.</p><div><a href="mailto:contacto@cosechaaurea.com">contacto@cosechaaurea.com</a><a href="#mayoreo">Exportación México → Suiza</a></div></div><div className="footer-bottom"><span>© 2026 Cosecha Áurea</span><span>Sitio demostrativo · Proyecto escolar</span><button onClick={() => scrollTo("inicio")}>Volver arriba ↑</button></div></footer>
+
+      {selectedProduct && <div className="product-modal-layer">
+        <button className="modal-backdrop" onClick={() => setSelectedProduct(null)} aria-label="Cerrar ficha del producto" />
+        <section className="product-modal" role="dialog" aria-modal="true" aria-labelledby="product-modal-title">
+          <button className="modal-close" onClick={() => setSelectedProduct(null)} aria-label="Cerrar">×</button>
+          <div className="modal-product-image"><span>Empaque de exportación</span><img src={selectedProduct.image} alt={`Empaque Cosecha Áurea de ${selectedProduct.weight}`} /></div>
+          <div className="modal-product-copy">
+            <p className="eyebrow"><LeafMark /> México → Suiza</p><h2 id="product-modal-title">Vainas premium<br/>{selectedProduct.weight}</h2><p className="modal-description">{selectedProduct.description}</p>
+            <div className="modal-price"><strong>{money.format(selectedProduct.price)} MXN</strong><span>{selectedProduct.chf} · referencia internacional</span></div>
+            <div className="modal-specs"><div><span>Calibre</span><b>15–17 cm</b></div><div><span>Contenido</span><b>{selectedProduct.count}</b></div><div><span>Humedad</span><b>25–28%</b></div><div><span>Empaque</span><b>Sellado al vacío</b></div></div>
+            <p className="modal-origin">Vanilla planifolia · Papantla, Veracruz, México</p>
+            <div className="modal-actions"><button onClick={() => addToCart(selectedProduct)}>Agregar al carrito <span>+</span></button><a href={`mailto:contacto@cosechaaurea.com?subject=Cotización%20internacional%20${encodeURIComponent(selectedProduct.weight)}`}>Cotizar envío internacional ↗</a></div>
+          </div>
+        </section>
+      </div>}
 
       <aside className={cartOpen ? "cart-drawer open" : "cart-drawer"} aria-hidden={!cartOpen}><div className="drawer-head"><div><p>Tu selección</p><span>{cart.length} {cart.length === 1 ? "producto" : "productos"}</span></div><button onClick={() => setCartOpen(false)} aria-label="Cerrar carrito">×</button></div><div className="drawer-items">
-        {cart.length === 0 ? <div className="empty-cart"><BagIcon/><h3>Tu carrito está vacío</h3><p>Explora las presentaciones de nuestra cosecha.</p><button onClick={() => {setCartOpen(false); scrollTo("catalogo")}}>Ver productos</button></div> : cart.map((item, index) => <div className="cart-item" key={`${item.id}-${index}`}><img src={item.image} alt=""/><div><p>Vainas premium</p><h4>{item.weight}</h4><span>{money.format(item.price)}</span></div><button onClick={() => setCart((items) => items.filter((_, i) => i !== index))} aria-label="Quitar producto">×</button></div>)}
-      </div>{cart.length > 0 && <div className="drawer-total"><div><span>Total estimado</span><strong>{money.format(total)}</strong></div><button onClick={() => setToast("Pago desactivado en esta demostración")}>Continuar al pago</button><small>Demostración escolar · No se procesarán pagos</small></div>}</aside>
+        {cart.length === 0 ? <div className="empty-cart"><BagIcon/><h3>Tu carrito está vacío</h3><p>Explora las presentaciones de nuestra cosecha.</p><button onClick={() => {setCartOpen(false); scrollTo("catalogo")}}>Ver productos</button></div> : cart.map((item, index) => <div className="cart-item" key={`${item.id}-${index}`}><img src={item.image} alt=""/><div><p>Vainas premium · 15–17 cm</p><h4>{item.weight}</h4><span>{money.format(item.price)}</span></div><button onClick={() => setCart((items) => items.filter((_, i) => i !== index))} aria-label="Quitar producto">×</button></div>)}
+      </div>{cart.length > 0 && <div className="drawer-total"><div><span>Total estimado</span><strong>{money.format(total)}</strong></div><button onClick={() => setToast("Pago desactivado en esta demostración")}>Solicitar pedido</button><small>Demostración escolar · Cotización internacional por separado</small></div>}</aside>
       {cartOpen && <button className="backdrop" onClick={() => setCartOpen(false)} aria-label="Cerrar carrito"/>}{toast && <div className="toast">✓ {toast}</div>}
     </main>
   );

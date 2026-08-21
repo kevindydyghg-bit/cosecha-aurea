@@ -4,9 +4,10 @@ Frontend empresarial para una tienda demostrativa de vainas de vainilla premium 
 
 ## Características
 
-- Catálogo responsivo de cuatro presentaciones.
+- Catálogo responsivo con nuevos empaques de 100 g, 250 g, 500 g y 1 kg.
+- Fichas flotantes de producto con calibre, humedad, contenido y cotización internacional.
 - Carrito lateral interactivo y ordenamiento por precio.
-- Secciones de origen, perfil sensorial, mayoreo y preguntas frecuentes.
+- Secciones de origen, perfil sensorial, exportación B2B a Suiza y preguntas frecuentes.
 - Imágenes optimizadas y metadatos sociales.
 - Publicación automática en GitHub Pages.
 
