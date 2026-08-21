@@ -135,7 +135,6 @@ export default function Storefront() {
         <div><p className="eyebrow"><LeafMark /> Lo esencial</p><h2>Preguntas<br/>frecuentes.</h2><p className="faq-lead">Todo lo que necesitas saber antes de elegir tu presentación.</p></div>
         <div className="faq-list">{[
           ["¿Qué tamaño tienen las vainas premium?", "La selección Grado A / Gourmet está compuesta por vainas enteras de 15 a 17 cm, flexibles, carnosas y de color café oscuro a negro brillante."],
-          ["¿Realizan compras y envíos internacionales?", "Sí. Atendemos pedidos B2B internacionales, especialmente hacia Zúrich, Suiza. Cada operación se confirma mediante cotización de producto, transporte y documentación."],
           ["¿Cómo se conserva el producto?", "El sellado al vacío protege los aceites esenciales y la humedad de 25% a 28%. Debe mantenerse en un lugar fresco, seco y oscuro, sin refrigeración."],
           ["¿Qué presentaciones están disponibles?", "Ofrecemos bolsas selladas al vacío de 100 g, 250 g, 500 g y 1 kg, con el número aproximado de vainas indicado en cada empaque."],
           ["¿Puedo comprar para mi negocio?", "Claro. Las presentaciones de 500 g y 1 kg están orientadas a hoteles, restaurantes, chocolaterías, reposterías y fabricantes especializados."],
